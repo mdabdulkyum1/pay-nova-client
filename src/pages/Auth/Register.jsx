@@ -1,5 +1,6 @@
 import { useState } from "react";
 import ThemeToggle from "../../hooks/ThemeToggle/ThemeToggle";
+import { Link } from 'react-router';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -144,9 +145,9 @@ const Register = () => {
 
         <p className="mt-3 text-center text-sm text-gray-500 dark:text-gray-400">
           Already have an account?{" "}
-          <a href="/login" className="text-indigo-500 hover:underline">
+          <Link to="/login" className="text-indigo-500 hover:underline">
             Log in
-          </a>
+          </Link>
         </p>
       </div>
     </div>
