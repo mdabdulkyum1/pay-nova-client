@@ -1,6 +1,8 @@
 import { useState } from "react";
 import ThemeToggle from "../../hooks/ThemeToggle/ThemeToggle";
 import { Link } from 'react-router';
+import logo from "../../assets/logo.png";
+
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -27,6 +29,9 @@ const Register = () => {
   return (
     <div className="flex min-h-screen items-center justify-center bg-white dark:bg-gray-800 px-4">
       <div className="bg-white dark:bg-gray-800 rounded-lg px-8 py-10 shadow-xl w-full max-w-3xl border border-gray-200 dark:border-gray-700">
+         <div className="flex items-center justify-center">
+                     <img src={logo} alt="Pay-nova Logo" className="w-16"/>
+                </div>
         <div className="text-center mb-6">
           <h3 className="text-gray-900 dark:text-white text-xl font-semibold">
             Create Your Account <ThemeToggle />
