@@ -1,13 +1,24 @@
 
-import ThemeToggle from './../../hooks/ThemeToggle/ThemeToggle';
+import useAuth from "./../../hooks/GetAuthInfo/useAuth";
 
 const Home = () => {
-    return (
-        <div>
-            <h1>Home</h1> 
-            <ThemeToggle></ThemeToggle>           
-        </div>
-    );
+ 
+
+  const { user, loading } = useAuth();
+
+  
+
+  if (loading) {
+    return <p>loading.....</p>;
+  }
+  console.log(user);
+
+  return (
+    <div className="py-20">
+        Home
+      
+    </div>
+  );
 };
 
 export default Home;

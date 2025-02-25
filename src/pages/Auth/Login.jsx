@@ -1,7 +1,9 @@
 import { useState } from "react";
 import ThemeToggle from "../../hooks/ThemeToggle/ThemeToggle";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import logo from "../../assets/logo.png";
+import useAxiosPublic from "../../hooks/AxiosPublic/useAxiosPublic";
+import Swal from "sweetalert2";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -9,16 +11,49 @@ const Login = () => {
     pin: "",
   });
 
+  const axiosPublic = useAxiosPublic();
+  const navigate = useNavigate();
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (name === "pin" && (isNaN(value) || value.length > 5)) return; 
     setFormData({ ...formData, [name]: value });
   };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Login Data:", formData);
-  };
+    const userInfo = formData;
+    const userData = {
+      email: userInfo.identifier,
+      pin: userInfo.pin,
+      mobile: userInfo.identifier,
+    };
+    
+    try {
+        const { data } = await axiosPublic.post("/api/login", userData);
+        
+        if (data.success) {
+            // Save token to localStorage
+            localStorage.setItem("token", data.data.token);
+            localStorage.setItem("session", data.data.session); // Store session if needed
+            localStorage.setItem("userId", data.data.id);
+
+
+            Swal.fire("Login successfully", "Welcome to Pay Nova", "success");
+            
+            setFormData({
+              pin: "",
+              mobile: "",
+              email: "",
+            });
+
+            navigate('/');
+        }
+    } catch (error) {
+        console.error("Login Error:", error);
+        Swal.fire("Please enter valid credentials");
+    }
+};
+
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-white dark:bg-gray-800">
@@ -38,7 +73,7 @@ const Login = () => {
             <input
               type="text"
               name="identifier"
-              value={formData.identifier}
+              defaultValue={formData.identifier}
               onChange={handleChange}
               className="mt-1 w-full rounded-md border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-700 px-3 py-2 text-gray-900 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
               placeholder="Enter email or phone"

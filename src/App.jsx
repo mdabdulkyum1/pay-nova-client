@@ -2,6 +2,8 @@ import { BrowserRouter, Routes, Route } from "react-router";
 import Home from "./pages/Home/Home";
 import Login from "./pages/Auth/Login";
 import Register from "./pages/Auth/Register";
+import Layout from "./layout/Layout";
+import SendMoney from "./pages/SendMoney/SendMoney";
 // import Dashboard from "./pages/User/Dashboard";
 // import SendMoney from "./pages/User/SendMoney";
 // import CashOut from "./pages/User/CashOut";
@@ -21,7 +23,10 @@ function App() {
     <BrowserRouter>
       <Routes>
         {/* Public Routes */}
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="/sendMoney" element={<SendMoney />} />
+        </Route>
 
         {/* Auth Routes */}
         <Route path="/login" element={<Login />} />

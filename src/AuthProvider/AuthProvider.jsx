@@ -1,82 +1,54 @@
-import PropTypes from 'prop-types'
+import PropTypes from "prop-types";
 import { createContext, useEffect, useState } from "react";
-import { auth } from './../firebase/firebase.init';
-import { createUserWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from 'firebase/auth';
-import useAxiosPublic from './../hooks/AxiosPublic/useAxiosPublic';
+import useAxiosPublic from "../hooks/AxiosPublic/useAxiosPublic";
+
 
 export const AuthContext = createContext(null);
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const provider = new GoogleAuthProvider();
   const axiosPublic = useAxiosPublic();
-  
 
-  const googleLogin = () => {
-    return signInWithPopup(auth, provider);
-  }
-  const createUser = (email, password) => {
-    setLoading(true);
-    return createUserWithEmailAndPassword(auth, email, password);
-  }
-  const loginUser = (email, password) => {
-    setLoading(true);
-    return signInWithEmailAndPassword(auth, email, password);
-  }
-  const updateUserProfile = (name, photo) => {
-     return updateProfile(auth.currentUser , { displayName: name, photoURL: photo }) 
 
-  }
-  const logOut = () => {
-    return signOut(auth);
-  }
-  
-
-  useEffect(()=>{
-    
-    const unsubscribe = onAuthStateChanged(auth, currentUser=> {
-      // console.log("User >>>>",currentUser);
-      setUser(currentUser)
-      if(currentUser){
-        const userInfo = {email: currentUser.email}
-        axiosPublic.post('/jwt', userInfo)
-        .then(res=> {
-           if(res.data.token){
-              localStorage.setItem('access-token', res.data.token);
-           }
-        })
+  // Fetch user data if a token exists
+  const fetchUser = async () => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      try {
+        setLoading(true);
+        const response = await axiosPublic.get("api/auth/me", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setUser(response.data.user);
+      } catch (error) {
+        console.error("Failed to fetch user:", error);
+        setUser(null);
+      } finally {
+        setLoading(false);
       }
-      else{
-        localStorage.removeItem('access-token');
-     }
+    } else {
+      setUser(null);
       setLoading(false);
-    })
+    }
+  };
 
-    return ()=> { unsubscribe() }
+  // Run fetchUser when AuthProvider mounts
+  useEffect(() => {
+    fetchUser();
+  }, []);
 
-  },[axiosPublic])
-  
-  
-  
-    const userInfo = {
-      user, 
-      loading,
-      setUser,
-      googleLogin,
-      createUser,
-      updateUserProfile,
-      loginUser,
-      logOut
-    };
+
+
   return (
-    <AuthContext.Provider value={userInfo}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{ user, loading}}>
+      {children}
+    </AuthContext.Provider>
   );
 };
 
 AuthProvider.propTypes = {
-    children: PropTypes.any
-}
+  children: PropTypes.any,
+};
 
 export default AuthProvider;
-

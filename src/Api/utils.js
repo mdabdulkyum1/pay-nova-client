@@ -26,3 +26,14 @@ export const saveUser = async (user) => {
     const {data} = await axios.post(`${import.meta.env.VITE_server_url}/users`, userInfo);
     return data;
 }
+
+
+
+
+
+
+
+
+
+
+

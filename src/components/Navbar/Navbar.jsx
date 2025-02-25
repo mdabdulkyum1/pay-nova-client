@@ -1,23 +1,46 @@
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router";
 import useScrollDirection from "../../hooks/ScrollDirection/useScrollDirection";
 import useAuth from "../../hooks/GetAuthInfo/useAuth";
 import ThemeToggle from "./../../hooks/ThemeToggle/ThemeToggle";
-import logo from "../../assets/logo.png";
-import darkLogo from "../../assets/darkLogo.png";
-import { Tooltip } from "react-tooltip";
-import useRole from './../../hooks/GetRole/useRole';
+import useAxiosPublic from "../../hooks/AxiosPublic/useAxiosPublic";
+
 
 const Navbar = () => {
   const isVisible = useScrollDirection();
 
-  const { user, loading, logOut } = useAuth();
-  const {role} = useRole();
+  const { user, loading } = useAuth();
+const navigate = useNavigate();
+const axiosPublic = useAxiosPublic();
+  
+  const handelLogOut = async () => {
+    try {
+      // Get the token from localStorage
+      const token = localStorage.getItem("token");
+      if (!token) {
+        return navigate("/login");
+      }
 
-  const navigate = useNavigate();
-  const handelLogOut = () => {
-    logOut().then(() => {
+      // Send logout request to the backend with token in Authorization header
+      await axiosPublic.post(
+        "/api/logout",
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      // Clear the localStorage
+      localStorage.removeItem("token");
+      localStorage.removeItem("session");
+      localStorage.removeItem("userId");
+
+      // Redirect to login
       navigate("/login");
-    });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const links = (
@@ -38,7 +61,7 @@ const Navbar = () => {
       </li>
       <li>
         <NavLink
-          to="/all-classes"
+          to="/SendMoney"
           className={({ isActive }) =>
             `px-4 py-2 rounded ${
               isActive
@@ -47,39 +70,9 @@ const Navbar = () => {
             }`
           }
         >
-          All Classes
+          Send Money
         </NavLink>
       </li>
-      {
-        role === "student" && <li>
-        <NavLink
-          to="/tech-on"
-          className={({ isActive }) =>
-            `px-4 py-2 rounded ${
-              isActive
-                ? "dark:text-primary border-b-2 border-primary"
-                : "text-light-text hover:text-primary dark:text-dark-text dark:hover:text-accent"
-            }`
-          }
-        >
-          Teach on EduProSphere
-        </NavLink>
-      </li>
-      }
-      <li>
-  <NavLink
-    to="/about"
-    className={({ isActive }) =>
-      `px-4 py-2 rounded ${
-        isActive
-          ? "dark:text-primary border-b-2 border-primary"
-          : "text-light-text hover:text-primary dark:text-dark-text dark:hover:text-accent"
-      }`
-    }
-  >
-    About EduManage
-  </NavLink>
-</li>
 
     </>
   );
@@ -87,14 +80,7 @@ const Navbar = () => {
   const dropdownLinks = (
     <>
       <li>
-        <NavLink
-          to={
-            role === "admin" ? "/dashboard" :
-            role === "teacher" ? "/dashboard/teacher-home" :
-            role === "student" ? "/dashboard/my-enroll-class" :
-            "/"
-          }
-          
+        <NavLink to="profile"          
           className={({ isActive }) =>
             `px-4 py-2 rounded ${
               isActive
@@ -104,6 +90,19 @@ const Navbar = () => {
           }
         >
           Dashboard
+        </NavLink>
+      </li>
+      <li>
+        <NavLink to="profile"          
+          className={({ isActive }) =>
+            `px-4 py-2 rounded ${
+              isActive
+                ? "dark:text-primary border-b-2 border-primary"
+                : "text-light-text hover:text-primary dark:text-dark-text dark:hover:text-accent"
+            }`
+          }
+        >
+           Profile
         </NavLink>
       </li>
     </>
@@ -143,29 +142,20 @@ const Navbar = () => {
             </ul>
           </div>
           <div className="hidden sm:flex items-center justify-between">
-            <img
-              src={darkLogo}
-              alt="Light Logo"
-              className="w-16 hidden dark:block"
-            />
-            <img
-              src={logo}
-              alt="Dark Logo"
-              className="w-16 block dark:hidden"
-            />
+            
 
             <Link
               to="/"
               className="text-sm md:xl font-bold text-primary dark:text-accent sm:ml-4"
             >
-              EduProSphere
+              Pay Nova
             </Link>
           </div>
           <Link
             to="/"
             className="sm:hidden text-sm md:xl font-bold text-primary dark:text-accent sm:ml-4"
           >
-            EduProSphere
+            Pay Nova
           </Link>
         </div>
         {/* Navbar Center */}
@@ -203,14 +193,7 @@ const Navbar = () => {
                   className="btn btn-ghost btn-circle avatar"
                 >
                   <div className="w-10 rounded-full border border- ">
-                    <Tooltip id="my-tooltip" className="z-50" place="left" />
-                    <img
-                      alt={user?.displayName}
-                      src={user?.photoURL}
-                      referrerPolicy="no-referrer"
-                      data-tooltip-id="my-tooltip"
-                      data-tooltip-content={`${user?.displayName}`}
-                    />
+                    
                   </div>
                 </div>
                 <ul
@@ -238,7 +221,7 @@ const Navbar = () => {
               </div>
               <button
                 onClick={handelLogOut}
-                className="btn-sm bg-primary text-white rounded-md transition-colors"
+                className="btn bg-primary text-white rounded-md transition-colors"
               >
                 Logout
               </button>
