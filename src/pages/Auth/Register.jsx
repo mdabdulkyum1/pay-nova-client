@@ -1,7 +1,10 @@
 import { useState } from "react";
 import ThemeToggle from "../../hooks/ThemeToggle/ThemeToggle";
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import logo from "../../assets/logo.png";
+import useAxiosPublic from './../../hooks/AxiosPublic/useAxiosPublic';
+import  Swal  from 'sweetalert2';
+
 
 
 const Register = () => {
@@ -13,7 +16,12 @@ const Register = () => {
     role: "user",
     nid: "",
     photoURL: null,
+    session: null,
+    amount: null,
   });
+
+  const axiosPublic = useAxiosPublic();
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -21,9 +29,29 @@ const Register = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    console.log("Register Data:", formData);
+    
+    try {
+      const { data } = await axiosPublic.post("/api/register", formData);
+      if(data.success) {
+        Swal.fire("registered successfully", "You can now login", "success");
+        setFormData({
+          name: "",
+          pin: "",
+          mobile: "",
+          email: "",
+          role: "user",
+          nid: "",
+          photoURL: null,
+          session: null,
+          amount: null,
+        });
+        navigate('/login');
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
