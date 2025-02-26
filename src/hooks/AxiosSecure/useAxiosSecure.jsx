@@ -2,8 +2,8 @@ import axios from 'axios';
 import { useNavigate } from 'react-router';
 
 const axiosInstance = axios.create({
-    // baseURL: 'http://localhost:5000',
-     baseURL: 'https://pay-nova-server-production.up.railway.app'
+    baseURL: 'http://localhost:5000',
+    //  baseURL: 'https://pay-nova-server-production.up.railway.app'
 });
 
 const useAxiosSecure = () => {

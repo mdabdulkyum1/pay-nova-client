@@ -10,7 +10,7 @@ const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const axiosPublic = useAxiosPublic();
 
-
+console.log(user)
   // Fetch user data if a token exists
   const fetchUser = async () => {
     const token = localStorage.getItem("token");

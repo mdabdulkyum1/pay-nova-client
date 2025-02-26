@@ -1,5 +1,6 @@
 
 import useAuth from "./../../hooks/GetAuthInfo/useAuth";
+import Banner from "./Banner";
 
 const Home = () => {
  
@@ -14,8 +15,8 @@ const Home = () => {
   console.log(user);
 
   return (
-    <div className="py-20">
-        Home
+    <div className="py-16">
+       <Banner></Banner>
       
     </div>
   );

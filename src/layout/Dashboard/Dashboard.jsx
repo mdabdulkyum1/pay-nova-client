@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink } from "react-router";
 import {
   FaHome,
   FaUser,
@@ -7,7 +7,6 @@ import {
   FaChalkboardTeacher,
   FaPlusCircle,
   FaUsers,
-  FaListAlt,
   FaSignOutAlt,
   FaBars,
   FaTimes,
@@ -24,7 +23,7 @@ const Dashboard = () => {
   const { user, logOut } = useAuth();
   const { role, roleLoading } = useRole();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
+  console.log(role)
   if (roleLoading) {
     return <Loading message="Loading Role Data" />;
   }
@@ -119,7 +118,7 @@ const Dashboard = () => {
               </>
             )}
 
-            {role === "admin" && (
+            {role === "admin" || role === "super-admin" &&(
               <>
               <li>
               <NavLink
@@ -129,30 +128,16 @@ const Dashboard = () => {
                 <FaHome /> <span>Home</span>
               </NavLink>
             </li>
-                <li>
-                  <NavLink
-                    to="/dashboard/teacher-request"
-                    className="flex items-center space-x-2 hover:text-accent"
-                  >
-                    <FaUsers /> <span>Teacher Request</span>
-                  </NavLink>
-                </li>
+                
                 <li>
                   <NavLink
                     to="/dashboard/users"
                     className="flex items-center space-x-2 hover:text-accent"
                   >
-                    <FaUsers /> <span>Users</span>
+                    <FaUsers /> <span>User Management</span>
                   </NavLink>
                 </li>
-                <li>
-                  <NavLink
-                    to="/dashboard/all-classes"
-                    className="flex items-center space-x-2 hover:text-accent"
-                  >
-                    <FaListAlt /> <span>All Classes</span>
-                  </NavLink>
-                </li>
+              
                 <li>
                   <NavLink
                     to="/dashboard/profile"

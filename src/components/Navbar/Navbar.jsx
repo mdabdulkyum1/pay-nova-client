@@ -3,15 +3,15 @@ import useScrollDirection from "../../hooks/ScrollDirection/useScrollDirection";
 import useAuth from "../../hooks/GetAuthInfo/useAuth";
 import ThemeToggle from "./../../hooks/ThemeToggle/ThemeToggle";
 import useAxiosPublic from "../../hooks/AxiosPublic/useAxiosPublic";
-
+// import Balance from "../shared/Balance/Balance";
 
 const Navbar = () => {
   const isVisible = useScrollDirection();
 
   const { user, loading } = useAuth();
-const navigate = useNavigate();
-const axiosPublic = useAxiosPublic();
-  
+  const navigate = useNavigate();
+  const axiosPublic = useAxiosPublic();
+
   const handelLogOut = async () => {
     try {
       // Get the token from localStorage
@@ -73,14 +73,14 @@ const axiosPublic = useAxiosPublic();
           Send Money
         </NavLink>
       </li>
-
     </>
   );
 
   const dropdownLinks = (
     <>
       <li>
-        <NavLink to="profile"          
+        <NavLink
+          to="/dashboard"
           className={({ isActive }) =>
             `px-4 py-2 rounded ${
               isActive
@@ -93,7 +93,8 @@ const axiosPublic = useAxiosPublic();
         </NavLink>
       </li>
       <li>
-        <NavLink to="profile"          
+        <NavLink
+          to="/profile"
           className={({ isActive }) =>
             `px-4 py-2 rounded ${
               isActive
@@ -102,7 +103,7 @@ const axiosPublic = useAxiosPublic();
             }`
           }
         >
-           Profile
+          Profile
         </NavLink>
       </li>
     </>
@@ -112,7 +113,7 @@ const axiosPublic = useAxiosPublic();
     <nav
       className={`border-b dark:border-b-slate-500 fixed top-0 left-0 z-50 w-full transition-transform duration-300 ${
         isVisible ? "translate-y-0" : "-translate-y-full"
-      } bg-light-background text-light-text dark:bg-dark-background dark:text-dark-text`}
+      } text-black dark:text-white  bg-white dark:bg-gray-800`}
     >
       <div className="navbar container mx-auto">
         {/* Navbar Start */}
@@ -142,18 +143,16 @@ const axiosPublic = useAxiosPublic();
             </ul>
           </div>
           <div className="hidden sm:flex items-center justify-between">
-            
-
             <Link
               to="/"
-              className="text-sm md:xl font-bold text-primary dark:text-accent sm:ml-4"
+              className="text-sm md:xl font-bold text-black dark:text-white sm:ml-4"
             >
               Pay Nova
             </Link>
           </div>
           <Link
             to="/"
-            className="sm:hidden text-sm md:xl font-bold text-primary dark:text-accent sm:ml-4"
+            className="sm:hidden text-sm md:xl font-bold text-black dark:text-white sm:ml-4"
           >
             Pay Nova
           </Link>
@@ -166,7 +165,6 @@ const axiosPublic = useAxiosPublic();
         </div>
         {/* Navbar End */}
         <div className="navbar-end gap-2">
-          <ThemeToggle />
           {loading ? (
             <div className="skeleton h-12 w-12 shrink-0 border border-accent rounded-full"></div>
           ) : user ? (
@@ -186,33 +184,38 @@ const axiosPublic = useAxiosPublic();
             //   </button>
             // </div>
             <div className="flex items-center gap-2">
+
+
+            {/* <Balance role="user" amount={500}></Balance> */}
+
+
+
               <div className="dropdown dropdown-end">
                 <div
                   tabIndex={0}
                   role="button"
                   className="btn btn-ghost btn-circle avatar"
                 >
-                  <div className="w-10 rounded-full border border- ">
-                    
-                  </div>
+                  <div className="w-10 rounded-full border border- "></div>
                 </div>
                 <ul
                   tabIndex={0}
                   className="dropdown-content space-y-3 bg-light-background dark:bg-dark-background border border-transparent dark:border-white rounded-lg z-10 mt-3 p-4 shadow-lg w-64 transition-all duration-300"
                 >
                   {/* User Display Name */}
-                  <li className="text-center text-lg font-semibold  mb-2">
-                    {user?.displayName || "Guest"}
+                  <li className="flex items-center justify-between text-center text-white text-lg font-semibold  mb-2">
+                    {user?.name || "Guest"}
+                    <ThemeToggle />
                   </li>
 
                   {/* Dropdown Links */}
-                  <ul className="">{dropdownLinks}</ul>
+                  <ul className="text-white">{dropdownLinks}</ul>
 
                   {/* Logout Button */}
                   <li className="mt-2">
                     <button
                       onClick={handelLogOut}
-                      className="btn-sm bg-primary text-white rounded-md transition-colors w-full"
+                      className="btn bg-primary text-white rounded-md transition-colors w-full"
                     >
                       Logout
                     </button>

@@ -5,7 +5,7 @@ import logo from "../../assets/logo.png";
 import useAxiosPublic from "../../hooks/AxiosPublic/useAxiosPublic";
 import Swal from "sweetalert2";
 
-const Login = () => {
+const AdminLogin = () => {
   const [formData, setFormData] = useState({
     identifier: "", 
     pin: "",
@@ -29,7 +29,7 @@ const Login = () => {
     };
     
     try {
-        const { data } = await axiosPublic.post("/api/login", userData);
+        const { data } = await axiosPublic.post("/api/login/admin", userData);
         
         if (data.success) {
             // Save token to localStorage
@@ -62,12 +62,8 @@ const Login = () => {
              <img src={logo} alt="Pay-nova Logo" className="w-16"/>
         </div>
         <h3 className="text-gray-900 dark:text-white mt-5 text-lg font-semibold text-center">
-          Login to Your Account
+          Login to Admin Account <ThemeToggle />
         </h3>
-        <div className="my-4 flex items-center justify-between">
-          <ThemeToggle />
-          <Link className="btn" to="/admin-login">Admin Login </Link>
-        </div>
 
         <form onSubmit={handleSubmit} className="mt-4">
           <div>
@@ -120,4 +116,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default AdminLogin;
