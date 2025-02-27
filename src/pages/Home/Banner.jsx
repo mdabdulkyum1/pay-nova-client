@@ -1,30 +1,25 @@
-
 import Lottie from "lottie-react";
 import animationData from "../../assets/Animation.json";
 import bannerImg from "../../assets/banner.jpg";
-import { Parallax } from "react-parallax";
 import { FaArrowRight, FaMoneyBillWave, FaShieldAlt, FaHandHoldingUsd, FaHeadset } from "react-icons/fa";
 
 const Banner = () => {
     return (
-        <Parallax
-            // blur={{ min: -50, max: 50 }}
-            bgImage={bannerImg}
-            bgImageAlt="MFS Background"
-            strength={-200}
-            className="bg-cover bg-center bg-no-repeat relative"
-            bgImageStyle={{
-                objectFit: "cover",
-                width: "100%",
+        <div
+            className="relative bg-cover bg-center bg-no-repeat"
+            style={{
+                backgroundImage: `url(${bannerImg})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
             }}
         >
             {/* Overlay for better contrast */}
-            <div className="absolute bg-black/75 inset-0"></div>
+            <div className="absolute inset-0 bg-black/75"></div>
 
-            <div className="hero relative z-10 flex items-center justify-center">
+            <div className="hero relative z-10 flex items-center justify-center py-16">
                 <div className="md:max-w-6xl mx-auto flex flex-col lg:flex-row items-center justify-between px-6 md:px-12 space-y-8 lg:space-y-0">
                     {/* Left Side - Lottie Animation */}
-                    <div className="w-full  md:w-96 lg:w-1/2 lg:h-auto">
+                    <div className="w-full md:w-96 lg:w-1/2 lg:h-auto">
                         <Lottie animationData={animationData} loop={true} />
                     </div>
 
@@ -61,7 +56,7 @@ const Banner = () => {
                     </div>
                 </div>
             </div>
-        </Parallax>
+        </div>
     );
 };
 
