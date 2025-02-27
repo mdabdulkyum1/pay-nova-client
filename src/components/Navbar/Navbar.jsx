@@ -9,7 +9,7 @@ const Navbar = () => {
   const isVisible = useScrollDirection();
 
   const { user, loading } = useAuth();
-  console.log("nav", user)
+ 
   const navigate = useNavigate();
   const axiosPublic = useAxiosPublic();
 

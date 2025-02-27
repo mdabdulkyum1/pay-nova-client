@@ -64,7 +64,7 @@ const Footer = () => {
         {/* Bottom Section */}
         <div className=" border-gray-700 mt-8 pt-4 text-center text-sm text-gray-600">
         <p className="text-sm">
-            &copy; {new Date().getFullYear()} EduProSphere. All rights reserved.
+            &copy; {new Date().getFullYear()} Pay Nova. All rights reserved.
           </p>
           <div className="flex justify-center space-x-6 mt-2">
             <a href="#" className="hover:text-white">Privacy</a>
