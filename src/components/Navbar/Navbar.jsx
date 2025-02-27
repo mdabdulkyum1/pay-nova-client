@@ -3,12 +3,13 @@ import useScrollDirection from "../../hooks/ScrollDirection/useScrollDirection";
 import useAuth from "../../hooks/GetAuthInfo/useAuth";
 import ThemeToggle from "./../../hooks/ThemeToggle/ThemeToggle";
 import useAxiosPublic from "../../hooks/AxiosPublic/useAxiosPublic";
-// import Balance from "../shared/Balance/Balance";
+import Balance from "../shared/Balance/Balance";
 
 const Navbar = () => {
   const isVisible = useScrollDirection();
 
   const { user, loading } = useAuth();
+  console.log("nav", user)
   const navigate = useNavigate();
   const axiosPublic = useAxiosPublic();
 
@@ -186,7 +187,7 @@ const Navbar = () => {
             <div className="flex items-center gap-2">
 
 
-            {/* <Balance role="user" amount={500}></Balance> */}
+            <Balance amount={user.amount}></Balance>
 
 
 
@@ -200,7 +201,7 @@ const Navbar = () => {
                 </div>
                 <ul
                   tabIndex={0}
-                  className="dropdown-content space-y-3 bg-light-background dark:bg-dark-background border border-transparent dark:border-white rounded-lg z-10 mt-3 p-4 shadow-lg w-64 transition-all duration-300"
+                  className="dropdown-content space-y-3 bg-gray-800 border border-transparent dark:border-white rounded-lg z-10 mt-3 p-4 shadow-lg w-64 transition-all duration-300"
                 >
                   {/* User Display Name */}
                   <li className="flex items-center justify-between text-center text-white text-lg font-semibold  mb-2">

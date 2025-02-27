@@ -10,7 +10,7 @@ const Users = () => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [transactions, setTransactions] = useState([]);
   const [loadingTransactions, setLoadingTransactions] = useState(false);
-
+console.log(user)
   // Fetch users
   const { data: users = [], isLoading, isError, error } = useQuery({
     queryKey: ["users"],
@@ -21,7 +21,7 @@ const Users = () => {
     },
   });
 
-  console.log(users)
+  
 
   // Search filter
   const filteredUsers = users.filter((u) =>

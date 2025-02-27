@@ -23,7 +23,7 @@ const Dashboard = () => {
   const { user, logOut } = useAuth();
   const { role, roleLoading } = useRole();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  console.log(role)
+  console.log(role);
   if (roleLoading) {
     return <Loading message="Loading Role Data" />;
   }
@@ -51,7 +51,6 @@ const Dashboard = () => {
             </button>
           </div>
           <ul className="space-y-4">
-            
             {role === "student" && (
               <>
                 <li>
@@ -82,14 +81,14 @@ const Dashboard = () => {
             )}
             {role === "teacher" && (
               <>
-              <li>
-              <NavLink
-                to="/dashboard/teacher-home"
-                className="flex items-center space-x-2 hover:text-accent"
-              >
-                <FaHome /> <span>Home</span>
-              </NavLink>
-            </li>
+                <li>
+                  <NavLink
+                    to="/dashboard/teacher-home"
+                    className="flex items-center space-x-2 hover:text-accent"
+                  >
+                    <FaHome /> <span>Home</span>
+                  </NavLink>
+                </li>
                 <li>
                   <NavLink
                     to="/dashboard/add-class"
@@ -118,17 +117,17 @@ const Dashboard = () => {
               </>
             )}
 
-            {role === "admin" || role === "super-admin" &&(
+            {(role === "admin" || role === "super-admin") && (
               <>
-              <li>
-              <NavLink
-                to="/dashboard"
-                className="flex items-center space-x-2 hover:text-accent"
-              >
-                <FaHome /> <span>Home</span>
-              </NavLink>
-            </li>
-                
+                <li>
+                  <NavLink
+                    to="/dashboard"
+                    className="flex items-center space-x-2 hover:text-accent"
+                  >
+                    <FaHome /> <span>Home</span>
+                  </NavLink>
+                </li>
+
                 <li>
                   <NavLink
                     to="/dashboard/users"
@@ -137,7 +136,7 @@ const Dashboard = () => {
                     <FaUsers /> <span>User Management</span>
                   </NavLink>
                 </li>
-              
+
                 <li>
                   <NavLink
                     to="/dashboard/profile"
@@ -148,6 +147,7 @@ const Dashboard = () => {
                 </li>
               </>
             )}
+
             <div className="divider"></div>
             <li>
               <NavLink
