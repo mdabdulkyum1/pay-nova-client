@@ -4,12 +4,15 @@ import { Link, useNavigate } from "react-router";
 import logo from "../../assets/logo.png";
 import useAxiosPublic from "../../hooks/AxiosPublic/useAxiosPublic";
 import Swal from "sweetalert2";
+import useAuth from './../../hooks/GetAuthInfo/useAuth';
 
 const Login = () => {
   const [formData, setFormData] = useState({
     identifier: "", 
     pin: "",
   });
+
+  const {updateToken} = useAuth()
 
   const axiosPublic = useAxiosPublic();
   const navigate = useNavigate();
@@ -36,7 +39,7 @@ const Login = () => {
             localStorage.setItem("token", data.data.token);
             localStorage.setItem("session", data.data.session); // Store session if needed
             localStorage.setItem("userId", data.data.id);
-
+            updateToken(data.data.token)
 
             Swal.fire("Login successfully", "Welcome to Pay Nova", "success");
             
