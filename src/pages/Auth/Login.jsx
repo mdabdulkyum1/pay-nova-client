@@ -69,7 +69,12 @@ const Login = () => {
         </h3>
         <div className="my-4 flex items-center justify-between">
           <ThemeToggle />
-          <Link className="btn" to="/admin-login">Admin Login </Link>
+        </div>
+
+        <div className="">
+              <h1>admin login</h1>
+            <p>01754462008</p>
+            <p>53255</p>
         </div>
 
         <form onSubmit={handleSubmit} className="mt-4">

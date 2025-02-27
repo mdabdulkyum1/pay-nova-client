@@ -6,7 +6,6 @@ import Layout from "./layout/Layout";
 import SendMoney from "./pages/SendMoney/SendMoney";
 import Dashboard from "./layout/Dashboard/Dashboard";
 import Users from "./pages/Dashboard/Admin/Users";
-import AdminLogin from "./pages/Auth/AdminLogin";
 // import Dashboard from "./pages/User/Dashboard";
 // import SendMoney from "./pages/User/SendMoney";
 // import CashOut from "./pages/User/CashOut";
@@ -37,7 +36,6 @@ function App() {
 
         {/* Auth Routes */}
         <Route path="/login" element={<Login />} />
-        <Route path="/admin-login" element={<AdminLogin />} />
         <Route path="/register" element={<Register />} />
 
 
